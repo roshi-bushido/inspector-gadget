@@ -11,3 +11,7 @@ The Inspector Gadget offers a way to monitor application background periodic job
 - Inspector Gadget: this a grails + bootstrap based web console for you to administrate your Jobs.
 - Clients: the clients projects holds all language specific clients. Currently only supporting Java. 
 - Samples: Java based examples for the Java SDK.
+
+
+## TODO
+- Complete base documentation for the projects
