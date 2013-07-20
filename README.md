@@ -1,6 +1,5 @@
 Inspector Gadget
 ================
-
 The Inspector Gadget offers a way to monitor application background periodic jobs and the word periodic being the key here. It doesn´t matter if the job is run by quartz or by crontab, if it runs periodically Inspector Gadget can monitor it!.
 
 ## Features
@@ -8,5 +7,7 @@ The Inspector Gadget offers a way to monitor application background periodic job
 - A public Restfull API for you Job to comunicate with Inspector Gadget.
 - Language specific SDK's to simplify your job implementation.
 
-
-## Language SDK
+## Platform
+- Inspector Gadget: this a grails + bootstrap based web console for you to administrate your Jobs.
+- Clients: the clients projects holds all language specific clients. Currently only supporting Java. 
+- Samples: Java based examples for the Java SDK.
