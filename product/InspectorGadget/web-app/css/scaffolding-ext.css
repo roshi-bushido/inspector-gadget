@@ -1,0 +1,17 @@
+/* Dashboard css */
+.dashboard-separator {
+    margin-bottom: 20px;
+}
+
+.application-sanity-container {
+    border: 2px solid #dddddd !important;
+    border-collapse: separate;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+}
+.application-sanity-name {
+    margin-bottom: 5px;
+    margin-top: 5px;
+    margin-left: 10px;
+}

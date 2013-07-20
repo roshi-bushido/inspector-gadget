@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Inspector Gadget Client Console</title>
+    <meta name="viewport" content="initial-scale = 1.0">
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <script type="text/javascript" src="./jquery-1.8.0.min.js"></script>
+    <script src="/InspectorGadget/static/bundle-bundle_bootstrap_defer.js" type="text/javascript"></script>
+    <link href="/InspectorGadget/static/bundle-bundle_bootstrap_head.css" type="text/css" rel="stylesheet"
+          media="screen, projection"/>
+    <link href="/InspectorGadget/static/css/scaffolding.css" type="text/css" rel="stylesheet"
+          media="screen, projection"/>
+
+    <script src="/static/bundle-bundle_bootstrap_defer.js" type="text/javascript"></script>
+    <link href="/static/bundle-bundle_bootstrap_head.css" type="text/css" rel="stylesheet" media="screen, projection"/>
+    <link href="/static/css/scaffolding.css" type="text/css" rel="stylesheet" media="screen, projection"/>
+</head>
+<body>
+<ul class="nav nav-tabs">
+    <li class="active"><a href="#jobInstanceStart" data-toggle="tab">Job Instance List</a></li>
+    <li><a href="#jobInstanceEvents" data-toggle="tab">Job Instance Events List</a></li>
+    <li><a href="#jobList" data-toggle="tab">Job List</a></li>
+</ul>
+
+<div id="myTabContent" class="tab-content">
+    <div class="tab-pane fade" id="jobList">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Job Name</th>
+                <th>Enabled</th>
+            </tr>
+            </thead>
+            <tbody id="homeTableBody">
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane fade active in" id="jobInstanceStart">
+        <div class="row">
+            <div class="span4">
+                <form class="form-horizontal">
+                    <div class="control-group">
+                        <label class="centered">Job Id</label>
+                        <input type="text" placeholder="Enter Job id..." id="jobIdInput">
+                        <label class="centered">Job Instance Id</label>
+                        <input type="text" placeholder="Enter Job instance id..." id="jobInstanceIdInput">
+                        <label class="centered">Job Instance Exception</label>
+                        <textarea placeholder="Enter exception....." rows="10" cols="5" id="exceptionInput"></textarea>
+                    </div>
+                    <div class="control-group">
+                        <a href="#" class="btn btn-primary" id="listJobAction">Listar instancias de un job</a>
+                    </div>
+                    <div class="control-group">
+                        <a href="#" class="btn btn-primary" id="startJobAction">Crear nueva instancia</a>
+                    </div>
+                    <div class="control-group">
+                        <a href="#" class="btn btn-primary" id="finishJobAction">Finalizar una instancia</a>
+                    </div>
+                    <div class="control-group">
+                        <a href="#" class="btn btn-primary" id="crashJobAction">Crashear una instancia</a>
+                    </div>
+                </form>
+            </div>
+            <div class="span8">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Job Name</th>
+                        <th>Status</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody id="jobInstanceBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="tab-pane fade" id="jobInstanceEvents">
+        <div class="row">
+            <div class="span4">
+                <form class="form-horizontal">
+                    <div class="control-group">
+                        <label class="centered">Job Instance Id</label>
+                        <input type="text" placeholder="Enter Job instance id..." id="eventJobInstanceIdInput">
+                        <label class="centered">Job Instance Exception</label>
+                        <textarea placeholder="Enter exception....." rows="10" cols="5"
+                                  id="eventExceptionInput"></textarea>
+                    </div>
+                    <div class="control-group">
+                        <a href="#" class="btn btn-primary" id="listEventJobAction">Listar eventos instancia</a>
+                    </div>
+                    <div class="control-group">
+                        <a href="#" class="btn btn-primary" id="successEventJobAction">Evento OK de una instancia</a>
+                    </div>
+                    <div class="control-group">
+                        <a href="#" class="btn btn-primary" id="errorEventJobAction">Evento Error de una instancia</a>
+                    </div>
+                </form>
+            </div>
+            <div class="span8">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Job Id</th>
+                        <th>Job Instance Id</th>
+                        <th>Status</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody id="jobInstanceEventsBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+    <hr>
+    <footer>
+        <p>&copy; Inspector Gadget 2013</p>
+    </footer>
+</div>
+
+<script type="text/javascript">
+    var CONTEXT_URL = "/";
+
+    if (document.URL.indexOf('InspectorGadget') != -1) {
+        CONTEXT_URL = CONTEXT_URL.concat('InspectorGadget/');
+    }
+
+    $(document).ready(function () {
+        $.get(CONTEXT_URL.concat('api/1.0/jobs/list'),
+                function (response) {
+                    var homeContainer = $("#homeTableBody");
+                    homeContainer.empty();
+                    for (var i = 0; i < response.length; i++) {
+                        var job = response[i];
+                        var tr = $("<tr></tr>").attr("class", "info");
+                        var idCol = $("<td></td>").text(job.id);
+                        var nameCol = $("<td></td>").text(job.name);
+                        var enabledCol = $("<td></td>").text(job.enabled);
+                        tr.append(idCol).append(nameCol).append(enabledCol);
+                        homeContainer.append(tr);
+                    }
+                }
+        );
+        $("#startJobAction").click(function () {
+            var jobId = $("#jobIdInput").val();
+            if (jobId != undefined && !isNaN(jobId) && parseInt(jobId) > 0) {
+                $.post(CONTEXT_URL.concat('api/1.0/jobs/${jobId}/start').replace('${jobId}', jobId), function (response) {
+                    console.log("success");
+
+                    // actualizo la UI
+                    $("#jobInstanceIdInput").val(response.jobInstanceId);
+                    $("#listJobAction").trigger('click');
+
+                });
+            } else {
+                console.log("Id de job invalido");
+            }
+        });
+
+        $("#listJobAction").click(function () {
+            var jobId = $("#jobIdInput").val();
+            if (jobId != undefined && !isNaN(jobId) && parseInt(jobId) > 0) {
+                $.get(CONTEXT_URL.concat('api/1.0/jobs/${jobId}/list').replace('${jobId}', jobId),
+                        function (response) {
+                            var homeContainer = $("#jobInstanceBody");
+                            homeContainer.empty();
+                            for (var i = 0; i < response.length; i++) {
+                                var job = response[i];
+                                var tr = $("<tr></tr>").attr("class", "info");
+                                var idCol = $("<td></td>").text(job.id);
+                                var nameCol = $("<td></td>").text(job.name);
+                                var statusCol = $("<td></td>").text(job.status);
+                                var descCol = $("<td></td>").text(job.description);
+                                tr.append(idCol).append(nameCol).append(statusCol).append(descCol);
+                                homeContainer.append(tr);
+                            }
+                        }
+                );
+            } else {
+                console.log("Id de job invalido");
+            }
+        });
+        $("#finishJobAction").click(function () {
+            var jobId = $("#jobIdInput").val();
+            var jobInstanceId = $("#jobInstanceIdInput").val();
+            if (jobId != undefined && !isNaN(jobId) && parseInt(jobId) > 0) {
+                if (jobInstanceId != undefined && !isNaN(jobInstanceId) && parseInt(jobInstanceId) > 0) {
+                    $.post(CONTEXT_URL.concat('api/1.0/jobs/${jobId}/${jobInstanceId}/finish').replace('${jobId}', jobId).replace('${jobInstanceId}', jobInstanceId), function (response) {
+                        console.log("success");
+                        $("#listJobAction").trigger('click');
+                    });
+                } else {
+                    console.log("Job instance id invalido");
+                }
+            } else {
+                console.log("Id de job invalido");
+            }
+        });
+
+        $("#crashJobAction").click(function () {
+            var jobId = $("#jobIdInput").val();
+            var jobInstanceId = $("#jobInstanceIdInput").val();
+            var reason = encodeURIComponent($("#exceptionInput").val());
+            if (jobId != undefined && !isNaN(jobId) && parseInt(jobId) > 0) {
+                if (jobInstanceId != undefined && !isNaN(jobInstanceId) && parseInt(jobInstanceId) > 0) {
+                    $.post(CONTEXT_URL.concat('api/1.0/jobs/${jobId}/${jobInstanceId}/crash').replace('${jobId}', jobId).replace('${jobInstanceId}', jobInstanceId), { trace: reason }, function (response) {
+                        console.log("success");
+                        $("#listJobAction").trigger('click');
+                    });
+                } else {
+                    console.log("Job instance id invalido");
+                }
+            } else {
+                console.log("Id de job invalido");
+            }
+        });
+
+
+        $("#successEventJobAction").click(function () {
+            var jobInstanceId = $("#eventJobInstanceIdInput").val();
+            var reason = encodeURIComponent($("#eventExceptionInput").val());
+            if (jobInstanceId != undefined && !isNaN(jobInstanceId) && parseInt(jobInstanceId) > 0) {
+                $.post(CONTEXT_URL.concat('api/1.0/jobs/${jobInstanceId}/events/success').replace('${jobInstanceId}', jobInstanceId), { message: reason }, function (response) {
+                    console.log("success");
+                    $("#listEventJobAction").trigger('click');
+                });
+            } else {
+                console.log("Job instance id invalido");
+            }
+        });
+
+        $("#errorEventJobAction").click(function () {
+            var jobInstanceId = $("#eventJobInstanceIdInput").val();
+            var reason = encodeURIComponent($("#eventExceptionInput").val());
+            if (jobInstanceId != undefined && !isNaN(jobInstanceId) && parseInt(jobInstanceId) > 0) {
+                $.post(CONTEXT_URL.concat('api/1.0/jobs/${jobInstanceId}/events/error').replace('${jobInstanceId}', jobInstanceId), { message: reason }, function (response) {
+                    console.log("success");
+                    $("#listEventJobAction").trigger('click');
+                });
+            } else {
+                console.log("Job instance id invalido");
+            }
+        });
+
+        $("#listEventJobAction").click(function () {
+            var jobInstanceId = $("#eventJobInstanceIdInput").val();
+            var reason = encodeURIComponent($("#eventExceptionInput").val());
+            if (jobInstanceId != undefined && !isNaN(jobInstanceId) && parseInt(jobInstanceId) > 0) {
+                $.get(CONTEXT_URL.concat('api/1.0/jobs/${jobInstanceId}/events').replace('${jobInstanceId}', jobInstanceId), function (response) {
+                    var homeContainer = $("#jobInstanceEventsBody");
+                    homeContainer.empty();
+                    for (var i = 0; i < response.length; i++) {
+                        var job = response[i];
+                        var tr = $("<tr></tr>").attr("class", "info");
+                        var idCol = $("<td></td>").text(job.id);
+                        var jobId = $("<td></td>").text(job.jobId);
+                        var jobInstanceIdCol = $("<td></td>").text(job.jobInstanceId);
+                        var statusCol = $("<td></td>").text(job.status);
+                        var descCol = $("<td></td>").text(job.description);
+                        tr.append(idCol).append(jobId).append(jobInstanceIdCol).append(statusCol).append(descCol);
+                        homeContainer.append(tr);
+                    }
+                });
+            } else {
+                console.log("Job instance id invalido");
+            }
+        });
+    });
+</script>
+</body>
+</html>
