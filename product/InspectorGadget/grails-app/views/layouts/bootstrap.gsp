@@ -57,4 +57,15 @@
 		</div>
 		<r:layoutResources/>
 	</body>
+    %{--<script type="text/javascript" src="http://localhost/clickheat/js/clickheat.js"></script>--}%
+    %{--<script type="text/javascript">--}%
+    %{--<!----}%
+        %{--clickHeatSite = 'www.gadget.agea.com.ar';--}%
+        %{--clickHeatGroup = '${controllerName}-${actionName}';--}%
+        %{--clickHeatQuota = 20;--}%
+        %{--clickHeatServer = 'http://localhost/clickheat/click.php';--}%
+        %{--initClickHeat();--}%
+    %{--//-->--}%
+    %{--</script>--}%
+
 </html>

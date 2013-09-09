@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 134
+/svn/!svn/ver/231916/Productos/PRD-00014-INSPECTORGADGET/trunk/fuentes/aplicaciones/product/InspectorGadget/src/groovy/model/execution
+END
+IntervalExecutionStrategy.groovy
+K 25
+svn:wc:ra_dav:version-url
+V 167
+/svn/!svn/ver/231916/Productos/PRD-00014-INSPECTORGADGET/trunk/fuentes/aplicaciones/product/InspectorGadget/src/groovy/model/execution/IntervalExecutionStrategy.groovy
+END
+JobExecutionStrategy.groovy
+K 25
+svn:wc:ra_dav:version-url
+V 162
+/svn/!svn/ver/231916/Productos/PRD-00014-INSPECTORGADGET/trunk/fuentes/aplicaciones/product/InspectorGadget/src/groovy/model/execution/JobExecutionStrategy.groovy
+END
+CronExecutionStrategy.groovy
+K 25
+svn:wc:ra_dav:version-url
+V 163
+/svn/!svn/ver/233506/Productos/PRD-00014-INSPECTORGADGET/trunk/fuentes/aplicaciones/product/InspectorGadget/src/groovy/model/execution/CronExecutionStrategy.groovy
+END

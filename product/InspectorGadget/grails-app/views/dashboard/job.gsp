@@ -22,8 +22,8 @@
 
         <div id="filterList">
             <strong><h4 class="muted"><g:message code="job.list.filter.label" default="Filter"/></h4></strong>
-            <g:select id="jobCombo" name="job" from="${jobList}" optionKey="id" optionValue="name"
-                      value="${params?.jobId}"/>
+            <g:select id="jobCombo" name="job" from="${jobList}" optionKey="id" optionValue="name" value="${params?.jobId}"/>
+            <g:select id="monthCombo" name="month" from="${1..12}" optionKey="value" optionValue="value" value="${currentMonth}"/>
         </div>
 
         <%
@@ -53,12 +53,16 @@
         // agrego el evento para el onChange para todos combos de busqueda
         $("[id$=Combo]").change(function() {
             var jobId = $("#jobCombo option:selected").val()
+            var month = $("#monthCombo option:selected").val()
             var filter = "";
 
             if ( jobId != undefined && jobId.trim() != "") {
                 filter += "jobId=" + jobId;
             }
 
+            if ( month != undefined && month.trim() != "") {
+                filter += "&currentMonth=" + month;
+            }
             window.location.href = "${createLink(controller: "dashboard", action: "job")}?" + filter;
         });
      });

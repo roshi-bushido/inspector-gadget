@@ -15,3 +15,17 @@
     margin-top: 5px;
     margin-left: 10px;
 }
+
+.validation-ok {
+    background-image: url(../images/ok.png);
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+}
+
+.validation-error {
+    background-image: url(../images/error.png);
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+}

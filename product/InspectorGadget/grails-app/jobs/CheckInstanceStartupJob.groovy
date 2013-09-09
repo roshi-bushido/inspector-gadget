@@ -2,7 +2,6 @@ import grails.plugins.quartz.GrailsJobClassConstants
 import groovy.util.logging.Log
 import inspector.gadget.SystemConfiguration
 import inspector.gadget.job.Job
-import inspector.gadget.job.JobInstance
 import inspector.gadget.util.DateUtil
 import model.SystemConfigurationAwareness
 import org.quartz.Scheduler
@@ -18,8 +17,6 @@ class CheckInstanceStartupJob implements SystemConfigurationAwareness {
     public static String KEY = "config.jobs.InstanceStartup"
     public static String NAME = "CheckInstanceStartupJob"
 
-    private final def OFFSET_IN_MILLIS = SystemConfiguration.findByKey("config.jobs.InstanceStartup").valueAsInteger()
-
     Scheduler quartzScheduler
 
     static triggers ={}
@@ -30,31 +27,9 @@ class CheckInstanceStartupJob implements SystemConfigurationAwareness {
         log.info("Initializing CheckInstanceStartupJob at ${startDate.getDateTimeString()}...")
 
         Job.active.list().each { job ->
-            JobInstance lastInstance = JobInstance.findLastFrom(job)
-
-            if (lastInstance != null) {
-                log.info("CheckInstanceStartupJob - Procesing JobInstance (id=${lastInstance?.getId()})....")
-                def currentTimeInMilliSeconds = Calendar.getInstance().getTime().getTime()
-                def finishedTimeInMilliSeconds = lastInstance?.endedAt?.getTime() ?: 0
-
-                def nextRun = finishedTimeInMilliSeconds + DateUtil.toMillis(job.executionInterval) + DateUtil.toMillis(OFFSET_IN_MILLIS)
-
-                if (currentTimeInMilliSeconds > nextRun) {
-                    log.info("Instance did not start for job (id=${job.getId()}). Sending notification....")
-                    job.didNotStartNewInstance()
-                }
-            } else {
-                log.info("CheckInstanceStartupJob - Procesing Job (id=${job?.getId()})....")
-                if (job?.lastUpdated != null) {
-                    def currentTimeInMilliSeconds = Calendar.getInstance().getTime().getTime()
-                    def finishedTimeInMilliSeconds = job.lastUpdated.getTime()
-                    def nextRun = finishedTimeInMilliSeconds + DateUtil.toMillis(job.executionInterval) + DateUtil.toMillis(OFFSET_IN_MILLIS)
-
-                    if (currentTimeInMilliSeconds > nextRun) {
-                        log.info("Instance did not start for job (id=${job.getId()}). Sending notification....")
-                        job.didNotStartNewInstance()
-                    }
-                }
+            if (job?.shouldHaveStarted()) {
+                log.info("Instance did not start for job (id=${job.getId()}). Sending notification....")
+                job.didNotStartNewInstance()
             }
         }
 

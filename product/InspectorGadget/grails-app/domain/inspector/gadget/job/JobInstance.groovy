@@ -35,6 +35,10 @@ class JobInstance {
         description(column: 'A_DESCRIPTION',  type: 'text')
     }
 
+    String toString() {
+        return "Job(${job.id}) instance (${id}) "
+    }
+
     def beforeInsert() {
         trimDescription()
     }
@@ -64,13 +68,6 @@ class JobInstance {
         this.endedAt = new Date()
         this.calculateResult()
     }
-
-    def shouldHaveFinish() {
-        def estimatedEndedTimeInMilliSeconds = this.startedAt.getTime() + DateUtil.toMillis(job.errorDurationThreshold)
-        def nowInMilliSeconds = Calendar.getInstance().getTime().getTime()
-        return (nowInMilliSeconds > estimatedEndedTimeInMilliSeconds)
-    }
-
 
     def crashed(String reason) {
         this.endedAt = Calendar.getInstance().getTime()

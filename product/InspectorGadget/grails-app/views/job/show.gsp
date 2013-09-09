@@ -9,6 +9,7 @@
 
 <body>
 <div class="row-fluid">
+
     <div class="span3">
         <g:render template="/common/actionMenu" model="[currentFilter: 'job']"/>
     </div>
@@ -62,8 +63,56 @@
                 <dt><g:message code="job.configuration.label" default="Configuration"/></dt>
                 <dd><g:fieldValue bean="${jobInstance.configuration}" field="name"/></dd>
             </g:if>
+
+            <g:if test="${jobInstance?.criticity}">
+                <dt><g:message code="job.criticity.label" default="Criticity"/></dt>
+                <dd><g:fieldValue bean="${jobInstance}" field="criticity"/></dd>
+            </g:if>
+
+            <g:if test="${jobInstance?.executionInterval}">
+                <dt><g:message code="job.executionInterval.label" default="Execution Interval"/></dt>
+                <dd><g:fieldValue bean="${jobInstance}" field="executionInterval"/></dd>
+            </g:if>
+
+            <g:if test="${jobInstance?.executionRegExp}">
+                <dt><g:message code="job.executionRegExp.label" default="Execution Reg Exp"/></dt>
+                <dd><g:fieldValue bean="${jobInstance}" field="executionRegExp"/></dd>
+            </g:if>
+
+            <g:if test="${jobInstance?.usesRegExp}">
+                <dt><g:message code="job.usesRegExp.label" default="Uses Reg Exp"/></dt>
+                <dd><g:formatBoolean boolean="${jobInstance?.usesRegExp}"/></dd>
+            </g:if>
+
+            <g:if test="${jobInstance?.dateCreated}">
+                <dt><g:message code="job.dateCreated.label" default="Date Created"/></dt>
+                <dd><g:formatDate date="${jobInstance?.dateCreated}"/></dd>
+            </g:if>
+
+            <g:if test="${jobInstance?.lastUpdated}">
+                <dt><g:message code="job.lastUpdated.label" default="Last Updated"/></dt>
+                <dd><g:formatDate date="${jobInstance?.lastUpdated}"/></dd>
+            </g:if>
+
         </dl>
+
+        <sec:ifAnyGranted roles="${model.Roles.ROLE_ADMIN}">
+        <g:form>
+            <g:hiddenField name="id" value="${jobInstance?.id}"/>
+            <div class="form-actions">
+                <g:link class="btn" action="edit" id="${jobInstance?.id}">
+                    <i class="icon-pencil"></i>
+                    <g:message code="default.button.edit.label" default="Edit"/>
+                </g:link>
+                <button class="btn btn-danger" type="submit" name="_action_delete">
+                    <i class="icon-trash icon-white"></i>
+                    <g:message code="default.button.delete.label" default="Delete"/>
+                </button>
+            </div>
+        </g:form>
+        </sec:ifAnyGranted>
     </div>
+
 </div>
 </body>
 </html>

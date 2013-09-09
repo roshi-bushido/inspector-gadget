@@ -1,8 +1,11 @@
 package inspector.gadget.cms
 
+import grails.converters.JSON
 import grails.plugins.springsecurity.Secured
 import inspector.gadget.Application
+import inspector.gadget.constraints.DateCronConstraint
 import inspector.gadget.job.Job
+import inspector.gadget.util.DateUtil
 
 class JobController extends CmsController {
     static scaffold = Job
@@ -89,5 +92,13 @@ class JobController extends CmsController {
 	        redirect action: 'show', id: jobInstance.id
 			break
 		}
+    }
+
+    def validateCronExpression() {
+        def cronExpression = params.expression
+        def isValid = DateUtil.validateCronExpression(cronExpression)
+        render(contentType: 'text/json') {[
+            'valid': isValid,
+        ]}
     }
 }

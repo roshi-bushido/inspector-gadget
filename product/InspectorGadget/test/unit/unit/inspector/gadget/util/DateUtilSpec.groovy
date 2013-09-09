@@ -14,7 +14,7 @@ import static org.junit.Assert.assertThat
  * @author <a href="mailto:bushido.ms@gmail.com">Matías Suárez</a>
  */
 class DateUtilSpec extends UnitSpec {
-    @Shared def f = new SimpleDateFormat("dd/mm/yyyy hh:mm:ss")
+    @Shared def f = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss")
 
     def "should calculate first day of the current month"() {
         when: "calculating the first day of the current month"
@@ -48,4 +48,44 @@ class DateUtilSpec extends UnitSpec {
             f.parse("01/01/2013 00:00:00")  | f.parse("02/01/2013 00:00:00")  || 60*60*24
     }
 
+    @Unroll
+    def "should substract #days from #date"() {
+       when:
+           def expectedDate = DateUtil.substractDaysTo(days, date)
+           def expectedDateString = f.format(expectedDate)
+       then:
+           assertThat(expected, equalTo(expectedDateString))
+
+       where:
+           date                            | days    || expected
+           f.parse("02/01/2013 01:01:00")  | 1       || "01/01/2013 01:01:00"
+           f.parse("01/02/2013 01:01:00")  | 1       || "31/01/2013 01:01:00"
+           f.parse("01/01/2013 01:01:00")  | 1       || "31/12/2012 01:01:00"
+
+   }
+
+    @Unroll
+    def "should get last day of #month"() {
+       when:
+
+           def expectedDate = DateUtil.lastDayOfMonth(month)
+           def calendar = new GregorianCalendar()
+           calendar.setTime(expectedDate)
+       then:
+           assertThat(lastDay, equalTo(calendar.get(Calendar.DAY_OF_MONTH)))
+       where:
+           month  || lastDay
+            1     || 31
+            2     || 28
+            3     || 31
+            4     || 30
+            5     || 31
+            6     || 30
+            7     || 31
+            8     || 31
+            9     || 30
+            10    || 31
+            11    || 30
+            12    || 31
+   }
 }

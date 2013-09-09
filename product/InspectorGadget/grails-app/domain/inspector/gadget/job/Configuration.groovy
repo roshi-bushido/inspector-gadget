@@ -7,7 +7,7 @@ class Configuration {
 
     static constraints = {
         name(nullable: false, blank: false, unique: true)
-        notificationEmail(nullable: false, blank: false, email: true)
+        notificationEmail(nullable: false, blank: false)
         isNotificationEnabled(nullable: false)
     }
 

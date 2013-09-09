@@ -59,6 +59,7 @@ grails.project.dependency.resolution = {
         compile ":spring-security-core:1.2.7.3"
         compile ":fields:1.3"
         compile ":quartz:1.0-RC9"
+        compile ":constraints:0.8.0"
         compile ":mail:1.0.1"
 
         build ":tomcat:$grailsVersion"

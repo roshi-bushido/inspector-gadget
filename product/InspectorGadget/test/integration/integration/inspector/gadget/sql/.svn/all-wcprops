@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 157
+/svn/!svn/ver/233126/Productos/PRD-00014-INSPECTORGADGET/trunk/fuentes/aplicaciones/product/InspectorGadget/test/integration/integration/inspector/gadget/sql
+END
+DatasetInitializer.groovy
+K 25
+svn:wc:ra_dav:version-url
+V 183
+/svn/!svn/ver/143332/Productos/PRD-00014-INSPECTORGADGET/trunk/fuentes/aplicaciones/product/InspectorGadget/test/integration/integration/inspector/gadget/sql/DatasetInitializer.groovy
+END
+dashboard-data.sql
+K 25
+svn:wc:ra_dav:version-url
+V 176
+/svn/!svn/ver/227417/Productos/PRD-00014-INSPECTORGADGET/trunk/fuentes/aplicaciones/product/InspectorGadget/test/integration/integration/inspector/gadget/sql/dashboard-data.sql
+END
+test-data.sql
+K 25
+svn:wc:ra_dav:version-url
+V 171
+/svn/!svn/ver/233126/Productos/PRD-00014-INSPECTORGADGET/trunk/fuentes/aplicaciones/product/InspectorGadget/test/integration/integration/inspector/gadget/sql/test-data.sql
+END

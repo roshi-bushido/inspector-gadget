@@ -117,7 +117,7 @@ class NotificationService {
 
     private void sendJobInstanceNotification(String toAddress, String fromAddress, String notificationSubject, JobInstance jobInstance, String template) {
         mailService.sendMail {
-            to (toAddress)
+            to (getRecipientList(toAddress))
             from (fromAddress)
             subject (notificationSubject)
             body (view: template, model: [instance: jobInstance])
@@ -126,10 +126,25 @@ class NotificationService {
 
     private void sendJobNotification(String toAddress, String fromAddress, String notificationSubject, Job job, String template) {
         mailService.sendMail {
-            to (toAddress)
+            to (getRecipientList(toAddress))
             from (fromAddress)
             subject (notificationSubject)
             body (view: template, model: [instance: job])
         }
+    }
+
+    private String[] getRecipientList(String recipientsAsString) {
+        def recipientsList = new ArrayList<String>()
+
+        if (recipientsAsString.contains(",")) {
+            recipientsList.addAll(recipientsAsString.split(","))
+        } else {
+            if (recipientsAsString.contains(";")) {
+                recipientsList.addAll(recipientsAsString.split(";"))
+            } else {
+                recipientsList.add(recipientsAsString)
+            }
+        }
+        return recipientsList.toArray()
     }
 }

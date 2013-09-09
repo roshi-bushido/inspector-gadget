@@ -16,6 +16,8 @@
                 href="${createLink(controller: "job", action: "panel")}">Jobs</a></li>
         <li class="${currentFilter?.equals("jobInstance") ? "active" : ""}"><a
                 href="${createLink(controller: "jobInstance", action: "panel")}">Job Instances</a></li>
+        <li class="${currentFilter?.equals("jobInstanceEvent") ? "active" : ""}"><a
+                href="${createLink(controller: "jobInstanceEvent", action: "panel")}">Job Instance Events</a></li>
         <li class="${currentFilter?.equals("dashboard") ? "active" : ""}"><a
                 href="${createLink(controller: "dashboard", action: "index")}">Dashboard</a></li>
 

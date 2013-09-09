@@ -29,7 +29,7 @@ class CheckInstanceCompletionJob implements SystemConfigurationAwareness {
 
         Job.active.list().each { job ->
             JobInstance.findAllByJobAndStatusLike(job, JobStatus.PENDING)?.each { lastInstance ->
-                if (lastInstance?.shouldHaveFinish()) {
+                if (job?.shouldHaveFinish(lastInstance)) {
                     lastInstance?.error("Job Instance ${lastInstance?.id} never finish....")
                 }
             }

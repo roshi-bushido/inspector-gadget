@@ -5,6 +5,7 @@ import dto.view.dashboard.GlobalDashboardDTO
 import dto.view.dashboard.JobSanity
 import dto.view.dashboard.MonthlyJobSanity
 import inspector.gadget.Application
+import inspector.gadget.SystemConfiguration
 import inspector.gadget.job.Job
 import inspector.gadget.job.JobInstance
 import inspector.gadget.util.DateUtil
@@ -48,20 +49,35 @@ class DashboardController extends CmsController {
         def jobId = params?.jobId
         def job = Job.findById(Long.valueOf(jobId))
         def jobList = Job.findAll()
+        def currentMonth = params.currentMonth ?: (Calendar.getInstance().get(Calendar.MONTH) + 1)
+        def startDate
+        def endDate
+        def monthlySanity
 
-        def instances = JobInstance.findAllByJobAndStartedAtBetween(job, DateUtil.firstDayOfCurrentMonth(), Calendar.getInstance().getTime())
-        def monthlySanity = new MonthlyJobSanity(jobName: job.name)
+        if ( params.currentMonth != null && params.currentMonth.isNumber() ) {
+            startDate = DateUtil.firstDayOfMonth(Integer.valueOf(currentMonth))
+            endDate = DateUtil.lastDayOfMonth(Integer.valueOf(currentMonth))
+            monthlySanity = MonthlyJobSanity.forMonth(Integer.valueOf(params.currentMonth))
+        } else {
+            startDate = DateUtil.firstDayOfCurrentMonth()
+            endDate = Calendar.getInstance().getTime()
+            currentMonth = (Calendar.getInstance().get(Calendar.MONTH) + 1)
+            monthlySanity = MonthlyJobSanity.forCurrentMonth()
+        }
 
+        def instances = JobInstance.findAllByJobAndStartedAtBetween(job, startDate, endDate)
+
+        monthlySanity.jobName = job.name
         instances.each { jobInstance ->
             def dailyJobSanity = monthlySanity.getJobSanityFor(jobInstance.startedAt)
-            if (jobInstance.status.equals(JobStatus.ERROR)) { dailyJobSanity.addError() }
-            if (jobInstance.status.equals(JobStatus.WARNING)) { dailyJobSanity.addWarning() }
-            if (jobInstance.status.equals(JobStatus.OK)) { dailyJobSanity.addSuccess() }
-            if (jobInstance.status.equals(JobStatus.PENDING)) { dailyJobSanity.addPending() }
+            if (jobInstance.status.equals(JobStatus.ERROR)) { dailyJobSanity?.addError() }
+            if (jobInstance.status.equals(JobStatus.WARNING)) { dailyJobSanity?.addWarning() }
+            if (jobInstance.status.equals(JobStatus.OK)) { dailyJobSanity?.addSuccess() }
+            if (jobInstance.status.equals(JobStatus.PENDING)) { dailyJobSanity?.addPending() }
         }
 
         withFormat {
-            html { [instance: monthlySanity, jobList: toCollectionDTO(jobList)] }
+            html { [instance: monthlySanity, jobList: toCollectionDTO(jobList), currentMonth: currentMonth] }
             json {
                 response.setContentType("application/json")
                 renderJSON(monthlySanity)
@@ -71,7 +87,13 @@ class DashboardController extends CmsController {
 
     def global() {
         def globalDashboard = new GlobalDashboardDTO()
-        def lastFailures = JobInstance.findAllByStatus(JobStatus.ERROR, [sort: "id", order: "desc", max: 10])
+        def refreshRate = SystemConfiguration.findByKey("config.dashboard.refresh").valueAsInteger()
+        def daysBefore  = SystemConfiguration.findByKey("config.dashboard.daysBefore").valueAsInteger()
+
+        def from = DateUtil.substractDaysTo(daysBefore, Calendar.getInstance().getTime())
+        def to = Calendar.getInstance().getTime()
+
+        def lastFailures = JobInstance.findAllByStatusAndStartedAtBetween(JobStatus.ERROR, from, to, [sort: "id", order: "desc", max: 10])
         lastFailures.each { failure -> globalDashboard.addJobFailure(toViewDTO(failure)) }
 
         Application.list().each { application ->
@@ -83,7 +105,8 @@ class DashboardController extends CmsController {
         }
 
         withFormat {
-            html { [dashboardInstance: globalDashboard] }
+            html {
+                [dashboardInstance: globalDashboard, refreshRate: refreshRate] }
             json {
                 response.setContentType("application/json")
                 renderJSON(globalDashboard)

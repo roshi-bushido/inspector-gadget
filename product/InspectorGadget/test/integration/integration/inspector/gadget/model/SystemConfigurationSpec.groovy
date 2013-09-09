@@ -24,7 +24,7 @@ class SystemConfigurationSpec extends IntegrationSpec {
         when:
             def systemConfigurations = SystemConfiguration.findAll();
         then:
-            assertThat(systemConfigurations.size(), equalTo(5))
+            assertThat(systemConfigurations.size(), equalTo(7))
     }
 
     def "should check is every system configuration is ok" () {
