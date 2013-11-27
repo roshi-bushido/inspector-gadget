@@ -24,7 +24,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ar.com.agea.productos.inspector-gadget</groupId>
 	<artifactId>inspector-gadget-parent</artifactId>
-	<version>01.00.02</version>
+	<version>01.00.03-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>Inspector Gadget Parent</name>
@@ -44,7 +44,7 @@
 	    <url>http://github.com/roshi-bushido/inspector-gadget</url>
 	    <connection>scm:git:git://github.com/roshi-bushido/inspector-gadget.git</connection>
 	    <developerConnection>scm:git:ssh://git@github.com/roshi-bushido/inspector-gadget.git</developerConnection>
-	    <tag>v01.00.02</tag>
+	    <tag>v01.00.00</tag>
 	</scm>
 	
 	<build>

@@ -4,13 +4,13 @@
  	<parent>
 		<groupId>ar.com.agea.productos.inspector-gadget</groupId>
 		<artifactId>inspector-gadget-clients-parent</artifactId>
-        <version>01.00.02</version>
+        <version>01.00.03-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
  	</parent> 
 
 	<groupId>ar.com.agea.productos.inspector-gadget</groupId>
 	<artifactId>java-client</artifactId>
-    <version>01.00.02</version>
+    <version>01.00.03-SNAPSHOT</version>
 	<name>Inspector Gadget Java Client</name>
 
 	<build>
