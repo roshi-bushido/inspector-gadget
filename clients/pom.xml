@@ -25,6 +25,7 @@ under the License.
 		<groupId>ar.com.agea.productos.inspector-gadget</groupId>
 		<artifactId>inspector-gadget-parent</artifactId>
         <version>01.00.00-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
     </parent>
     
     <modelVersion>4.0.0</modelVersion>
