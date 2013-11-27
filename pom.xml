@@ -35,6 +35,11 @@
 		<module>samples</module>
 	</modules>
 	
+	<properties>
+    		<!-- github server corresponds to entry in ~/.m2/settings.xml -->
+    		<github.global.server>github</github.global.server>
+	</properties>
+
 	<scm>
 	    <url>http://github.com/roshi-bushido/inspector-gadget</url>
 	    <connection>scm:git:git://github.com/roshi-bushido/inspector-gadget.git</connection>
