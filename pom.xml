@@ -50,8 +50,6 @@
 	          		<artifactId>maven-release-plugin</artifactId>
 	          		<version>2.3</version>
 					<configuration>
-						<username>${scm.username}</username>
-						<password>${scm.password}</password>
 			    		<autoVersionSubmodules>true</autoVersionSubmodules>
 						<tagNameFormat>v@{project.version}</tagNameFormat>
   	          		</configuration>
