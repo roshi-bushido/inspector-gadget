@@ -68,17 +68,17 @@
 				<artifactId>wagon-ssh</artifactId>
 				<version>2.2</version>
 			</extension>
-		</extension>
+		</extensions>
 	</build>
 
     <distributionManagement>
             <repository>
                     <id>localhost-releases</id>
-                    <url>scp://opt/maven-repo/releases</url>
+                    <url>scp://localhost/opt/maven-repo/releases</url>
             </repository>
             <snapshotRepository>
                     <id>localhost-snapshots</id>
-                    <url>scp://opt/maven-repo/snapshots</url>
+                    <url>scp://localhost/opt/maven-repo/snapshots</url>
             </snapshotRepository>
     </distributionManagement>
 
