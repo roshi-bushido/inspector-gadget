@@ -24,7 +24,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ar.com.agea.productos.inspector-gadget</groupId>
 	<artifactId>inspector-gadget-parent</artifactId>
-	<version>01.00.00</version>
+	<version>01.00.00-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>Inspector Gadget Parent</name>
