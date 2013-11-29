@@ -5,7 +5,7 @@
     <parent>
         <groupId>ar.com.agea.productos.inspector-gadget</groupId>
         <artifactId>inspector-gadget-parent</artifactId>
-        <version>01.00.08-SNAPSHOT</version>
+        <version>01.00.00</version>
 		<relativePath>../../pom.xml</relativePath>
 		
     </parent>
@@ -13,7 +13,7 @@
     <groupId>ar.com.agea.products</groupId>
     <artifactId>InspectorGadget</artifactId>
     <packaging>grails-app</packaging>
-    <version>01.00.08-SNAPSHOT</version>
+    <version>01.00.00</version>
     <name>InspectorGadget</name>
     <description>InspectorGadget</description>
 

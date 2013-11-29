@@ -24,14 +24,14 @@ under the License.
 	<parent>
 		<groupId>ar.com.agea.productos.inspector-gadget</groupId>
 		<artifactId>inspector-gadget-parent</artifactId>
-        <version>01.00.08-SNAPSHOT</version>
+        <version>01.00.00</version>
 		<relativePath>../pom.xml</relativePath>
     </parent>
     
     <modelVersion>4.0.0</modelVersion>
 	<groupId>ar.com.agea.productos.inspector-gadget</groupId>
 	<artifactId>inspector-gadget-clients-parent</artifactId>
-    <version>01.00.08-SNAPSHOT</version>
+    <version>01.00.00</version>
     <packaging>pom</packaging>
 
     <name>Inspector Gadget Clients Parent</name>
