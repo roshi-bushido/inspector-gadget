@@ -17,8 +17,7 @@ class DateUtil {
 
     static def firstDayOfCurrentMonth() {
         def currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1
-        def currentYear = Calendar.getInstance().get(Calendar.YEAR)
-        return simpleDateFormat.parse("01-${currentMonth}-${currentYear} 00:00:00")
+        return DateUtil.firstDayOfMonth(currentMonth)
     }
 
     static def firstDayOfMonth(Integer monthNumber) {
@@ -26,8 +25,9 @@ class DateUtil {
             throw new IllegalArgumentException("Month must be between 1 and 12. Cannot be ${monthNumber}")
         }
 
-        def currentYear = Calendar.getInstance().get(Calendar.YEAR)
-        return simpleDateFormat.parse("01-${monthNumber}-${currentYear} 00:00:00")
+        DateTime dt = new DateTime(Calendar.getInstance().get(Calendar.YEAR), monthNumber, 1, 0, 1)
+        DateTime startOfMonth = dt.dayOfMonth().withMinimumValue()
+        return startOfMonth.toDate()
     }
 
     static def lastDayOfMonth(Integer monthNumber) {
@@ -35,11 +35,9 @@ class DateUtil {
             throw new IllegalArgumentException("Month must be between 1 and 12. Cannot be ${monthNumber}")
         }
 
-        def calendar = new GregorianCalendar()
-        calendar.set(Calendar.MONTH, monthNumber -1)
-        def currentYear = Calendar.getInstance().get(Calendar.YEAR)
-        def dayNumber = calendar.getActualMaximum(Calendar.DAY_OF_MONTH)
-        return simpleDateFormat.parse("${dayNumber}-${monthNumber}-${currentYear} 23:59:59")
+        DateTime dt = new DateTime(Calendar.getInstance().get(Calendar.YEAR), monthNumber, 1, 23, 59);
+        DateTime endOfMonth = dt.dayOfMonth().withMaximumValue();
+        return endOfMonth.toDate()
     }
 
     static def substractDaysTo(Integer days, Date sourceDate) {
