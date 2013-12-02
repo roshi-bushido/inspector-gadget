@@ -30,7 +30,8 @@ class CronExecutionStrategy extends JobExecutionStrategy {
             lastRun = lastInstance?.endedAt ?: lastInstance?.startedAt
         }
 
-        lastRun = DateUtil.toJavaDate(lastRun)
+        // Before grails 2.2.3 lastRun was an instance of java.sql.Timestamp
+        //lastRun = DateUtil.toJavaDate(lastRun)
         Date nextValidRun = cronExpression.getNextValidTimeAfter(lastRun)
         def currentTime = Calendar.getInstance().getTime()
 
